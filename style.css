@@ -10,6 +10,78 @@ header>div>img{
     margin-right: 0.4rem;
 }
 
+.combobox-container {
+    display: inline-flex;
+    position: relative;
+    width: 100px;
+}
+
+/* Estilo do input */
+.combobox-input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -moz-appearance: textfield; /* Remove os botões de incremento para Firefox */
+}
+
+/* Remove os botões de incremento para outros navegadores */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Estilo da lista suspensa */
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none; /* Começa oculta */
+    z-index: 10;
+}
+
+/* Cada item na lista */
+.dropdown-list div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+/* Estilo do item quando o mouse passa sobre ele */
+.dropdown-list div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Botões para incremento e decremento */
+.increment-btns {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2px; /* Ajuste de posicionamento dos botões */
+}
+
+.increment-btns button {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+}
+
+.increment-btns button:hover {
+    background-color: #e0e0e0;
+}
+
 header {
     height: 4rem;
     background-color: #ffffff;
