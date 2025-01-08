@@ -38,3 +38,20 @@ document.getElementById('font-family').addEventListener('change', function () {
     const selectedFont = this.value;
     document.execCommand('fontName', false, selectedFont);
 });
+
+const customSelect = document.querySelector('.custom-select');
+  const selected = customSelect.querySelector('.selected');
+  const options = customSelect.querySelector('.options');
+
+  customSelect.addEventListener('click', () => {
+    customSelect.classList.add('active');
+  });
+
+  options.addEventListener('click', (event) => {
+    const option = event.target.closest('.option');
+    if (option) {
+      const imgSrc = option.querySelector('img').src;
+      selected.querySelector('img').src = imgSrc;
+      customSelect.classList.remove('active');
+    }
+  });

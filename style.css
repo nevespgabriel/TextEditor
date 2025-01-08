@@ -194,3 +194,36 @@ textarea::placeholder {
 .toolbar button:hover {
     background-color: #cac8c8;
 }
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 1rem;
+  }
+
+  .selected {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+
+  .option {
+    padding: 10px;
+  }
+
+  .option:hover {
+    background-color: #f0f0f0;
+  }
+
+  .custom-select.active .options {
+    display: block;
+  }
