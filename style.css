@@ -10,19 +10,37 @@ header>div>img{
     margin-right: 0.4rem;
 }
 
+hr{
+    width: 1px;
+    height: 80%; 
+    background-color: #000; 
+    border: none; 
+}
+
 .combobox-container {
     display: inline-flex;
     position: relative;
     width: 100px;
+    align-items: center;
+    margin: 0 1rem;
 }
 
 /* Estilo do input */
 .combobox-input {
     width: 100%;
-    padding: 5px;
+    padding: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
     -moz-appearance: textfield; /* Remove os botões de incremento para Firefox */
+}
+
+.font-select{
+    margin: 0 1rem;
+}
+
+.form-select {
+    padding: 6px;
+    font-size: 14px;
 }
 
 /* Remove os botões de incremento para outros navegadores */
@@ -62,13 +80,12 @@ input::-webkit-inner-spin-button {
 .increment-btns {
     display: flex;
     flex-direction: column;
-    margin-left: 2px; /* Ajuste de posicionamento dos botões */
 }
 
 .increment-btns button {
     padding: 0;
     width: 20px;
-    height: 20px;
+    height: 10px;
     border: 1px solid #ccc;
     background-color: #f0f0f0;
     cursor: pointer;
@@ -114,6 +131,11 @@ header button {
     height: 24px;
 }
 
+.smaller-icon{
+    width: 18px;
+    height: 18px;
+}
+
 main {
     display: flex;
     justify-content: center;
@@ -153,15 +175,18 @@ textarea::placeholder {
 
 .toolbar {
     display: flex;
-    background-color: transparent;
+}
+
+.text-style{
+    margin: 0 1rem;
 }
 
 .toolbar button {
-    background-color: #f5f2f2;
+    background-color: rgb(226, 226, 226);
     border: none;
     font-weight: bold;
     cursor: pointer;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.7rem;
     border-radius: 4px;
     transition: background-color 0.2s;
 }

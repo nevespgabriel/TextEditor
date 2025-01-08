@@ -18,14 +18,32 @@
             <img src="./icons/8071151.png" alt="" class="icon">
             <h1 class="fs-4 mb-0">Document Editor</h1>
         </div>
-        <button class="">
-            <img src="./icons/delete_24dp_EA3323_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
-        </button>
+        <div>
+            <button class="me-3">
+                <img src="./icons/download_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+            </button>
+            <button>
+                <img src="./icons/delete_24dp_EA3323_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+            </button>
+        </div>
+        
     </header>
     <section class="pt-2 pb-3 d-flex justify-content-center">
         <div class="toolbar d-flex align-items-center">
-            <div class="font-resize d-flex align-items-center me-3">
-                <!-- Combobox customizada -->
+            <div class="font-select">
+                <select id="font-family" class="form-select">
+                    <option value="Arial" style="font-family: Arial;">Arial</option>
+                    <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+                    <option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
+                    <option value="'Times New Roman'" style="font-family: 'Times New Roman';">Times New Roman</option>
+                    <option value="Georgia" style="font-family: Georgia;">Georgia</option>
+                    <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
+                    <option value="Comic Sans MS" style="font-family: 'Comic Sans MS';">Comic Sans MS</option>
+                    <option value="Impact" style="font-family: Impact;">Impact</option>
+                </select>
+            </div>
+            <hr>
+            <div class="font-resize d-flex align-items-center">
                 <div class="combobox-container">
                     <input type="text" id="font-size" class="combobox-input" value="12">
                     <div class="increment-btns">
@@ -50,10 +68,21 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-light me-2">B</button>
-            <button class="btn btn-light me-2">I</button>
-            <button class="btn btn-light me-2">U</button>
-            
+            <hr>
+            <div class="text-style">
+                <button class="btn btn-light me-2">
+                    <img src="./icons//format_bold_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
+                </button>
+                <button class="btn btn-light me-2">
+                    <img src="./icons/format_italic_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
+                </button>
+                <button class="btn btn-light me-2">
+                    <img src="./icons//format_underlined_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
+                </button>
+                <button class="btn btn-light me-2">
+                    <img src="./icons/format_color_text_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
+                </button>
+            </div>         
         </div>
     </section>
     <main class="d-flex justify-content-center align-items-center">
