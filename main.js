@@ -1,54 +1,48 @@
 const inputSize = document.getElementById('font-size');
-const dropdown = document.getElementById('dropdown');
 const btnPlus = document.getElementById('btn-plus');
 const btnMinus = document.getElementById('btn-minus');
 const editor = document.querySelector("#editor");
 
-// Exibe o dropdown ao clicar no input
-inputSize.addEventListener('click', function () {
-    dropdown.style.display = 'block';
-});
-
-function changeSize(size){
+// Função para aplicar o tamanho da fonte diretamente ao conteúdo selecionado
+function changeSize(size) {
     const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    const span = document.createElement("span");
-
-    // Altera o tamanho da fonte selecionada para 20px
-    span.style.fontSize = size;
     
-    range.surroundContents(span);
+    if (selection.rangeCount > 0 && !selection.isCollapsed) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement("span");
+        span.style.fontSize = size + "px";
+        range.surroundContents(span);dasdsd
+    } else {
+        // Se não houver seleção, aplica o tamanho de fonte no editor inteiro
+        editor.style.fontSize = size + "px";
+    }
 }
 
-// Colocar para o font-size ser o selecionado
-document.addEventListener('click', function (e) {
-    if (!inputSize.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = 'none';
-    }
+inputSize.addEventListener('input', function () {
+    const newSize = parseInt(this.value);
+    changeSize(newSize);
 });
 
-// Atualizar o inputSize com o valor selecionado no dropdown
-dropdown.addEventListener('click', function (e) {
-    if (e.target.dataset.value) {
-        inputSize.value = e.target.dataset.value;
-        dropdown.style.display = 'none';
-        changeSize(e.target.dataset.value)
-    }
-});
-
-// Função de incrementar e decrementar o valor
+// Função de incrementar o valor
 btnPlus.addEventListener('click', function () {
     let currentValue = parseInt(inputSize.value) || 12;
-    inputSize.value = currentValue + 1;
-    changeSize(inputSize.value);
+    let newValue = currentValue + 2; // Incrementa de 2 em 2
+    inputSize.value = newValue;
+    changeSize(newValue);
 });
 
+// Função de decrementar o valor
 btnMinus.addEventListener('click', function () {
     let currentValue = parseInt(inputSize.value) || 12;
-    inputSize.value = currentValue - 1;
-    changeSize(inputSize.value);
+    let newValue = currentValue - 2; // Decrementa de 2 em 2
+    inputSize.value = newValue;
+    changeSize(newValue);
 });
 
+// Exibe dropdown ao clicar no input
+inputSize.addEventListener('focus', function () {
+    dropdown.style.display = 'block';
+});
 
 document.getElementById('font-family').addEventListener('change', function () {
     const selectedFont = this.value;
