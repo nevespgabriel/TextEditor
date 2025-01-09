@@ -181,7 +181,7 @@ textarea::placeholder {
     margin: 0 1rem;
 }
 
-.toolbar button {
+.toolbar button, .selected {
     background-color: rgb(226, 226, 226);
     border: none;
     font-weight: bold;
@@ -191,7 +191,7 @@ textarea::placeholder {
     transition: background-color 0.2s;
 }
 
-.toolbar button:hover {
+.toolbar button:hover, .selected:hover {
     background-color: #cac8c8;
 }
 
@@ -200,12 +200,6 @@ textarea::placeholder {
     display: inline-block;
     cursor: pointer;
     margin: 0 1rem;
-  }
-
-  .selected {
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
   }
 
   .options {
@@ -226,4 +220,16 @@ textarea::placeholder {
 
   .custom-select.active .options {
     display: block;
+  }
+
+  #titulo-doc{
+    border: none;
+    border-radius: 10px;
+    font-size: 22px;
+    width: 15rem;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+  }
+
+  #titulo-doc:focus{
+    outline: rgb(126, 158, 226) 2px solid;
   }
