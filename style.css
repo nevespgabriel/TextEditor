@@ -145,32 +145,26 @@ main {
     min-height: 100vh;
 }
 
-.paper-container {
+.editable {
     background-color: white;
     width: 210mm;
     height: 297mm;
     border: 1px solid #ccc;
     padding: 1.5rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    margin: auto;
-}
-
-textarea {
-    width: 100%;
-    height: 100%;
-    border: none;
-    resize: none;
-    outline: none;
     font-size: 16px;
     line-height: 1.6;
-    padding: 1rem;
+    outline: none;
     box-sizing: border-box;
-    background-color: #fdfdfd;
+    overflow-y: auto;
+    white-space: pre-wrap;
 }
 
-textarea::placeholder {
+.editable:empty:before {
+    content: attr(placeholder);
     color: #999;
+    pointer-events: none;
+    display: block;
 }
 
 .toolbar {
@@ -232,4 +226,8 @@ textarea::placeholder {
 
   #titulo-doc:focus{
     outline: rgb(126, 158, 226) 2px solid;
+  }
+
+  .pressed{
+    background-color: #a5a5a5 !important;
   }
