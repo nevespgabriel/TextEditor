@@ -2,51 +2,101 @@ const inputSize = document.getElementById('font-size');
 const btnPlus = document.getElementById('btn-plus');
 const btnMinus = document.getElementById('btn-minus');
 const editor = document.querySelector("#editor");
+const dropdown = document.getElementById("dropdown");
 
-// Função para aplicar o tamanho da fonte diretamente ao conteúdo selecionado
-function changeSize(size) {
-    const selection = window.getSelection();
-    
-    if (selection.rangeCount > 0 && !selection.isCollapsed) {
-        const range = selection.getRangeAt(0);
-        const span = document.createElement("span");
-        span.style.fontSize = size + "px";
-        range.surroundContents(span);dasdsd
+// Configuração do Quill
+var quill = new Quill('#editor', {
+  modules: {
+    toolbar: '#toolbar-container' 
+  },
+  theme: 'snow'
+});
+
+
+
+// Registrar tamanhos personalizados
+const Size = Quill.import('attributors/style/size');
+Size.whitelist = [
+  '8pt', '10pt', '12pt', '14pt', '16pt', '18pt', '20pt', '22pt', 
+  '24pt', '26pt', '28pt', '30pt', '32pt', '34pt', '36pt', '38pt', 
+  '40pt', '42pt', '44pt', '46pt', '48pt', '50pt', '52pt', '54pt', 
+  '56pt', '58pt', '60pt', '62pt', '64pt', '66pt', '68pt', '70pt', 
+  '72pt', '74pt', '76pt', '78pt', '80pt', '82pt', '84pt', '86pt', 
+  '88pt', '90pt', '92pt', '94pt', '96pt'
+];
+Quill.register(Size, true);
+
+/*const Font = Quill.import('formats/font');
+Font.whitelist = [
+    'Arial', 
+    'Verdana', 
+    'Tahoma', 
+    'Times New Roman', 
+    'Georgia', 
+    'Courier New', 
+    'Comic Sans MS', 
+    'Impact'
+];
+Quill.register(Font, true);
+
+// Função para aplicar o tamanho da fonte
+function applyFontSize(size) {
+  const range = quill.getSelection();
+  if (range) {
+    if (range.length === 0) {
+      // Nenhum texto selecionado, aplica o formato para o texto futuro
+      quill.format('size', size + 'pt');
     } else {
-        // Se não houver seleção, aplica o tamanho de fonte no editor inteiro
-        editor.style.fontSize = size + "px";
+      // Texto selecionado, aplica o formato à seleção
+      quill.formatText(range, 'size', size + 'pt');
     }
-}
+  } else {
+    // Se não houver seleção (nenhuma posição do cursor), aplica o formato para o texto futuro
+    quill.format('size', size + 'pt');
+  }
+}*/
 
+// Evento para o input de tamanho da fonte
 inputSize.addEventListener('input', function () {
-    const newSize = parseInt(this.value);
-    changeSize(newSize);
+  const newSize = parseInt(this.value);
+  applyFontSize(newSize);
 });
 
-// Função de incrementar o valor
-btnPlus.addEventListener('click', function () {
-    let currentValue = parseInt(inputSize.value) || 12;
-    let newValue = currentValue + 2; // Incrementa de 2 em 2
-    inputSize.value = newValue;
-    changeSize(newValue);
-});
-
-// Função de decrementar o valor
-btnMinus.addEventListener('click', function () {
-    let currentValue = parseInt(inputSize.value) || 12;
-    let newValue = currentValue - 2; // Decrementa de 2 em 2
-    inputSize.value = newValue;
-    changeSize(newValue);
-});
-
-// Exibe dropdown ao clicar no input
+// Exibe o dropdown ao focar no input
 inputSize.addEventListener('focus', function () {
-    dropdown.style.display = 'block';
+  dropdown.style.display = 'block';
 });
 
-document.getElementById('font-family').addEventListener('change', function () {
-    const selectedFont = this.value;
-    document.execCommand('fontName', false, selectedFont);
+// Incrementa o tamanho da fonte
+btnPlus.addEventListener('click', function () {
+  let currentValue = parseInt(inputSize.value) || 12;
+  let newValue = currentValue + 2; // Incrementa de 2 em 2
+  inputSize.value = newValue;
+  applyFontSize(newValue); 
+});
+
+// Decrementa o tamanho da fonte
+btnMinus.addEventListener('click', function () {
+  let currentValue = parseInt(inputSize.value) || 12;
+  let newValue = currentValue - 2; // Decrementa de 2 em 2
+  inputSize.value = newValue;
+  applyFontSize(newValue);
+});
+
+// Fecha o dropdown se clicar fora
+document.addEventListener('click', function (e) {
+  if (!inputSize.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});
+
+// Evento para dropdown de tamanhos
+dropdown.addEventListener('click', function (e) {
+  if (e.target.dataset.value) {
+    inputSize.value = e.target.dataset.value;
+    applyFontSize(e.target.dataset.value);
+    dropdown.style.display = 'none'; // Fecha o dropdown
+  }
 });
 
 const customSelect = document.querySelector('.custom-select');
