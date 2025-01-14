@@ -26,7 +26,7 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
-/*const Font = Quill.import('formats/font');
+const Font = Quill.import('formats/font');
 Font.whitelist = [
     'Arial', 
     'Verdana', 
@@ -38,6 +38,19 @@ Font.whitelist = [
     'Impact'
 ];
 Quill.register(Font, true);
+
+function applyFontFamily(font) {
+  const range = quill.getSelection(); // Obtém a seleção atual no editor
+  if (range) {
+    if (range.length === 0) {
+      // Nenhum texto selecionado, aplica a fonte para o texto futuro
+      quill.format('font', font);
+    } else {
+      // Texto selecionado, aplica a fonte à seleção
+      quill.formatText(range, 'font', font);
+    }
+  }
+}
 
 // Função para aplicar o tamanho da fonte
 function applyFontSize(size) {
@@ -54,7 +67,12 @@ function applyFontSize(size) {
     // Se não houver seleção (nenhuma posição do cursor), aplica o formato para o texto futuro
     quill.format('size', size + 'pt');
   }
-}*/
+}
+
+document.querySelector("#font-family").addEventListener("change", function () {
+  const selectedFont = this.value; // Obtém a fonte selecionada no dropdown
+  applyFontFamily(selectedFont);    // Aplica a fonte selecionada ao editor
+});
 
 // Evento para o input de tamanho da fonte
 inputSize.addEventListener('input', function () {
