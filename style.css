@@ -10,6 +10,10 @@ header>div>img{
     margin-right: 0.4rem;
 }
 
+.confirmation-box{
+    display: none;
+}
+
 hr{
     width: 1px;
     height: 80%; 
@@ -23,6 +27,18 @@ hr{
     width: 100px;
     align-items: center;
     margin: 0 1rem;
+}
+
+#color-button{
+    position: relative;
+}
+
+#color-picker{
+    display: none;
+    position: absolute;
+    top: 100%; /* Coloca o seletor logo abaixo do botão */
+    left: 0;
+    z-index: 10; /* Garante que o seletor apareça sobre outros elementos */
 }
 
 /* Estilo do input */

@@ -20,11 +20,20 @@
             <input type="text" value="Documento 1" id="titulo-doc">
         </div>
         <div>
-            <button class="me-3">
+            <button class="me-3" id="download-button">
                 <img src="./icons/download_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+                <div class="confirmation-box" id="download-box">
+                    <div>Download arquivo HTML</div>
+                    <div>Download arquivo txt</div>
+                </div>
             </button>
-            <button>
+            <button id="remove-button">
                 <img src="./icons/delete_24dp_EA3323_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+                <div class="confirmation-box" id="remove-box">
+                    <p>Remover arquivo?</p>
+                    <div>Sim</div>
+                    <div>Não</div>
+                </div>
             </button>
         </div>
     </header>
@@ -75,8 +84,9 @@
                 <button class="btn btn-light me-2" id="underline-button">
                     <img src="./icons//format_underlined_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
                 </button>
-                <button class="btn btn-light me-2">
+                <button class="btn btn-light me-2" id="color-button">
                     <img src="./icons/format_color_text_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
+                    <input type="color" id="color-picker">
                 </button>
             </div>    
             <hr>    
@@ -91,10 +101,10 @@
                   <div class="option" data-value="center">
                     <img src="./icons/format_align_center_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
                   </div>
-                  <div class="option" data-value="center">
+                  <div class="option" data-value="right">
                     <img src="./icons/format_align_right_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
                   </div>
-                  <div class="option" data-value="center">
+                  <div class="option" data-value="justify">
                     <img src="./icons/format_align_justify_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="smaller-icon">
                   </div>
                 </div>

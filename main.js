@@ -3,6 +3,8 @@ const btnPlus = document.getElementById('btn-plus');
 const btnMinus = document.getElementById('btn-minus');
 const editor = document.querySelector("#editor");
 const dropdown = document.getElementById("dropdown");
+const colorButton = document.getElementById('color-button');
+const colorPicker = document.getElementById('color-picker');
 
 // Configuração do Quill
 var quill = new Quill('#editor', {
@@ -68,6 +70,74 @@ function applyFontSize(size) {
     quill.format('size', size + 'pt');
   }
 }
+
+function applyAlignment(alignValue) {
+  const range = quill.getSelection();
+  
+  if (range) {
+    if (range.length === 0) {
+      // Se não houver texto selecionado, aplica o alinhamento ao texto futuro
+      quill.format('align', alignValue);
+    } else {
+      // Se houver texto selecionado, aplica o alinhamento ao texto selecionado
+      quill.format('align', alignValue);
+    }
+  } else {
+    // Se não houver seleção (nenhuma posição do cursor), aplica ao texto futuro
+    quill.format('align', alignValue);
+  }
+}
+
+// Mostrar o seletor de cor logo abaixo do botão ao clicar
+colorButton.addEventListener('click', function(event) {
+  // Impede que o clique no botão de cor feche o seletor
+  event.stopPropagation();
+  
+  if (colorPicker.style.display === 'none' || !colorPicker.style.display) {
+    colorPicker.style.display = 'block';
+    this.classList.add("pressed");
+  } else {
+    colorPicker.style.display = 'none';
+    this.classList.remove("pressed"); // Remover a classe quando o seletor desaparecer
+  }
+});
+
+// Aplicar a cor selecionada ao texto
+colorPicker.addEventListener('input', function(event) {
+  const color = this.value;
+  const range = quill.getSelection();
+
+  if (range) {
+    if (range.length === 0) {
+      // Aplica cor ao texto futuro (caso não haja texto selecionado)
+      quill.format('color', color);
+    } else {
+      // Aplica cor ao texto selecionado
+      quill.formatText(range, 'color', color);
+    }
+  }
+
+  // Oculta o seletor de cor após selecionar
+  colorButton.classList.remove("pressed"); // Remove a classe quando o seletor desaparece
+});
+
+// Lógica do seletor personalizado
+document.querySelectorAll('.option').forEach(function(option) {
+  option.addEventListener('click', function() {
+    const alignValue = this.getAttribute('data-value'); // Obtém o valor de alinhamento
+    applyAlignment(alignValue); // Aplica o alinhamento
+
+    // Atualiza o ícone selecionado para refletir a escolha
+    document.querySelector('.selected img').src = this.querySelector('img').src;
+  });
+});
+
+// Solução para garantir que a seleção seja sempre atualizada
+quill.on('selection-change', function(range) {
+  if (range == null) {
+    // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
+  }
+});
 
 document.querySelector("#font-family").addEventListener("change", function () {
   const selectedFont = this.value; // Obtém a fonte selecionada no dropdown
