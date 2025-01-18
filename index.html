@@ -12,7 +12,7 @@
     <header class="d-flex align-items-center px-3 justify-content-between">
         <div class="d-flex align-items-center">
             <a href="./list.html">
-                <button class="btn me-3">
+                <button class="btn p-2" id="back">
                     <img src="./icons/arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="Back" class="icon">
                 </button>
             </a>
@@ -20,17 +20,23 @@
             <input type="text" value="Documento 1" id="titulo-doc">
         </div>
         <div>
-            <button class="me-3" id="download-button">
-                <img src="./icons/download_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
-                <div class="confirmation-box" id="download-box">
+            <button id="save-button">
+                <img src="./icons/save_24dp_2854C5_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+                <div class="confirmation-box" id="save-box">
+                    Alterações salvas com sucesso.
+                </div>
+            </button>
+            <button id="download-button">
+                <img src="./icons/download_24dp_48752C_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
+                <div class="confirmation-box" id="download-box" style="display: none;">
                     <div>Download arquivo HTML</div>
                     <div>Download arquivo txt</div>
                 </div>
             </button>
             <button id="remove-button">
                 <img src="./icons/delete_24dp_EA3323_FILL0_wght400_GRAD0_opsz24.png" alt="" class="icon">
-                <div class="confirmation-box" id="remove-box">
-                    <p>Remover arquivo?</p>
+                <div class="confirmation-box" id="remove-box" style="display: none;">
+                    Remover arquivo?
                     <div>Sim</div>
                     <div>Não</div>
                 </div>

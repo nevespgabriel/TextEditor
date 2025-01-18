@@ -10,8 +10,53 @@ header>div>img{
     margin-right: 0.4rem;
 }
 
+#save-box {
+    right: 6rem;
+    padding: 1rem 1.2rem;
+    opacity: 0;
+    visibility: hidden; /* Elemento inicialmente invisível */
+    transition: opacity 0.5s ease, visibility 0s 0.5s;
+  }
+
+#remove-box{
+    right: 1rem;
+    padding: 1rem 1.2rem;
+}
+  
+
+#download-box{
+    right: 3rem;
+}
+
+.show{
+    opacity: 1 !important;
+    visibility: visible !important; /* Elemento visível quando a classe "show" está presente */
+    transition: opacity 0.5s ease !important; /* Transição suave da opacidade */
+  }
+  
+  .hide {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.5s ease, visibility 0s 0.5s !important; /* A visibilidade será alterada depois de 0.5s (quando a opacidade terminar de transitar) */
+  }
+
 .confirmation-box{
-    display: none;
+    background-color: white;
+    border: 1px solid #00000049;
+    color: #00000098;
+    position: absolute;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0.3rem 0.5rem;
+    border-radius: 7px;
+    font-weight:bolder;
+}
+
+.confirmation-box>*{
+    padding: 0.8rem 1.3rem;
+}
+
+.confirmation-box>*:hover{
+    background-color: #f5f5f5;
 }
 
 hr{
@@ -137,10 +182,24 @@ section {
     z-index: 999;
 }
 
-header button {
-    background-color: transparent;
+header a{
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+header button{
+    background-color: #ffffff;
     border: none;
-    padding: 0;
+    padding: 0.3rem 0.3rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 0.15rem;
+}
+header button:hover, header a:hover{
+    background-color: #ebebeb;
 }
 
 .icon {
@@ -181,6 +240,10 @@ main {
     color: #999;
     pointer-events: none;
     display: block;
+}
+
+header>div>img{
+    margin-left: 1rem;
 }
 
 .toolbar {
@@ -231,7 +294,6 @@ main {
   .custom-select.active .options {
     display: block;
   }
-
   #titulo-doc{
     border: none;
     border-radius: 10px;
@@ -244,6 +306,15 @@ main {
     outline: rgb(126, 158, 226) 2px solid;
   }
 
-  .pressed{
-    background-color: #a5a5a5 !important;
+.pressed{
+background-color: #a5a5a5 !important;
+}
+
+.header-pressed{
+    background-color: #d8d8d8 !important;
+};
+
+
+  download-button, remove-button{
+    position: relative;
   }

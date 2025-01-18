@@ -5,6 +5,11 @@ const editor = document.querySelector("#editor");
 const dropdown = document.getElementById("dropdown");
 const colorButton = document.getElementById('color-button');
 const colorPicker = document.getElementById('color-picker');
+const downloadButton = document.querySelector("#download-button");
+const downloadBox = document.querySelector("#download-box");
+const removeButton = document.querySelector("#remove-button");
+const removeBox = document.querySelector("#remove-box");
+document.querySelector("header a");
 
 // Configuração do Quill
 var quill = new Quill('#editor', {
@@ -121,6 +126,26 @@ colorPicker.addEventListener('input', function(event) {
   colorButton.classList.remove("pressed"); // Remove a classe quando o seletor desaparece
 });
 
+document.querySelector("header a").addEventListener("click", function(){
+  this.classList.add("header-pressed");
+});
+
+document.querySelector("#save-button").addEventListener("click", function(){
+  this.classList.add("header-pressed");
+  setTimeout(function(){
+    document.querySelector("#save-button").classList.remove("header-pressed");
+    
+    const saveBox = document.querySelector("#save-box");
+    saveBox.classList.remove("hide");
+    saveBox.classList.add("show");
+
+    setTimeout(function(){
+      saveBox.classList.remove("show");
+      saveBox.classList.add("hide");
+    }, 2000);
+  }, 500);
+});
+
 // Lógica do seletor personalizado
 document.querySelectorAll('.option').forEach(function(option) {
   option.addEventListener('click', function() {
@@ -171,10 +196,40 @@ btnMinus.addEventListener('click', function () {
   applyFontSize(newValue);
 });
 
+downloadButton.addEventListener("click", function(event){
+  downloadButton.classList.add("header-pressed");
+  if(downloadBox.style.display == "block"){
+    downloadBox.style.display = "none";
+    downloadButton.classList.remove("header-pressed");
+  } else{
+    downloadBox.style.display = "block";
+  } 
+  event.stopPropagation();
+});
+
+removeButton.addEventListener("click", function(event){
+  removeButton.classList.add("header-pressed");
+  if(removeBox.style.display == "block"){
+    removeBox.style.display = "none";
+    removeButton.classList.remove("header-pressed");
+  } else{
+    removeBox.style.display = "block";
+  } 
+  event.stopPropagation();
+});
+
 // Fecha o dropdown se clicar fora
 document.addEventListener('click', function (e) {
   if (!inputSize.contains(e.target) && !dropdown.contains(e.target)) {
     dropdown.style.display = 'none';
+  }
+  if(downloadBox.style.display == "block"){
+    downloadBox.style.display = "none";
+    downloadButton.classList.remove("header-pressed");
+  }
+  if(removeBox.style.display == "block"){
+    removeBox.style.display = "none";
+    removeButton.classList.remove("header-pressed");
   }
 });
 
