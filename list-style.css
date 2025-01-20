@@ -1,0 +1,49 @@
+#buttons>*>img{
+    width: 1.5rem;
+}
+
+.remove-box{
+    padding: 1rem 1.2rem;
+    width: 12rem;
+}
+  
+
+.download-box{
+    width: 15rem;
+}
+
+.confirmation-box{
+    background-color: white;
+    border: 1px solid #00000049;
+    color: #00000098;
+    position: absolute;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0.3rem 0.5rem;
+    border-radius: 7px;
+    font-weight:bolder;
+}
+
+.confirmation-box>*{
+    padding: 0.8rem 1.3rem;
+}
+
+.confirmation-box>*:hover{
+    background-color: #f5f5f5;
+}
+
+.download-button, .remove-button{
+    position: relative;
+  }
+
+#buttons>*{
+    background-color: #ffffff;
+    border: none;
+    padding: 0.3rem 0.3rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 0.15rem;
+}
+#buttons>*:hover{
+    background-color: #ebebeb;
+}

@@ -315,6 +315,6 @@ background-color: #a5a5a5 !important;
 };
 
 
-  download-button, remove-button{
+  #download-button, #remove-button{
     position: relative;
   }
