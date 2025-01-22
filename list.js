@@ -53,3 +53,18 @@ document.addEventListener("click", function () {
     }
   });
 });
+
+function filterDocuments(event) {
+  event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+  const searchInput = document.getElementById('search-input').value.toLowerCase();
+  const documentCards = document.querySelectorAll('.document-card');
+  
+  documentCards.forEach(card => {
+    const title = card.querySelector('h2').innerText.toLowerCase();
+    if (title.includes(searchInput)) {
+      card.style.display = 'block'; // Mostra o card
+    } else {
+      card.style.display = 'none'; // Oculta o card
+    }
+  });
+}

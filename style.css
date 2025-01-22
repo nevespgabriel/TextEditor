@@ -176,7 +176,7 @@ header {
 section {
     position: sticky;
     top: 4rem;
-    background-color: rgb(226, 226, 226); /* Transparência com fundo claro */
+    background-color: rgb(226, 226, 226);
     border-bottom: 1px solid #0000001e;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 999;
@@ -187,7 +187,6 @@ header a{
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 
 header button{
     background-color: #ffffff;

@@ -6,10 +6,18 @@
     padding: 1rem 1.2rem;
     width: 12rem;
 }
-  
+ 
+nav{
+    color: black;
+}
 
 .download-box{
     width: 15rem;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
 }
 
 .confirmation-box{
@@ -35,6 +43,10 @@
     position: relative;
   }
 
+.album{
+    margin-top: 4rem;
+}
+
 #buttons>*{
     background-color: #ffffff;
     border: none;
@@ -44,6 +56,37 @@
     transition: background-color 0.3s ease;
     margin: 0 0.15rem;
 }
-#buttons>*:hover{
+#buttons>*:hover, .card:hover{
     background-color: #ebebeb;
 }
+
+.ignore-filter {
+    min-height: 375px; /* Ajuste o valor conforme necessário */
+  }
+
+  .ignore-filter .card {
+    
+  }
+
+.card{
+    transition: background-color 0.3s ease; /* Animação suave na mudança */
+}
+
+  /* Para garantir que o card não seja comprimido */
+  .ignore-filter .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px; /* Mesmo valor usado no card pai */
+  }
+
+  /* Garante que o SVG tenha um tamanho fixo */
+  .ignore-filter svg {
+    width: 50%;
+    height: auto;
+  }
+
+  /* Impede que o layout seja quebrado com a exibição/ocultação */
+  .document-card {
+    min-height: 375px; /* Ou ajuste conforme o design desejado */
+  }
