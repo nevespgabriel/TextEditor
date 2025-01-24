@@ -10,6 +10,11 @@ const downloadBox = document.querySelector("#download-box");
 const removeButton = document.querySelector("#remove-button");
 const removeBox = document.querySelector("#remove-box");
 document.querySelector("header a");
+var Parchment = Quill.import('parchment');
+var lineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
+  scope: Parchment.Scope.BLOCK,
+});
+Quill.register(lineHeightStyle, true);
 
 // Configuração do Quill
 var quill = new Quill('#editor', {
@@ -158,6 +163,14 @@ document.querySelectorAll('.option').forEach(function(option) {
 });
 
 // Solução para garantir que a seleção seja sempre atualizada
+
+document.querySelectorAll('.option-space').forEach(function(option) {
+  option.addEventListener('click', function() {
+    const spacingValue = this.getAttribute('data-value'); // Obtém o valor do espaçamento
+    quill.format('lineheight', spacingValue); // Aplica o espaçamento de linha
+  });
+});
+
 quill.on('selection-change', function(range) {
   if (range == null) {
     // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
@@ -270,6 +283,31 @@ document.addEventListener('click', (event) => {
   }
 });
 
+const selectSpace = document.querySelector('.select-space');
+const selectedSpace = selectSpace.querySelector('.selected-space');
+const optionsSpace = selectSpace.querySelector('.options-space');
+
+selectSpace.addEventListener('click', (event) => {
+  selectSpace.classList.toggle('active');
+  event.stopPropagation(); // Impede que o clique se propague para o documento
+});
+
+// Fecha o menu ao selecionar uma opção
+optionsSpace.addEventListener('click', (event) => {
+  const option = event.target.closest('.option-space');
+  if (option) {
+    selectSpace.classList.remove('active'); // Fecha o menu após a seleção
+  }
+  event.stopPropagation(); // Impede o evento de clique se propagar
+});
+
+// Fecha o menu se clicar fora dele
+document.addEventListener('click', (event) => {
+  if (!selectSpace.contains(event.target)) {
+    selectSpace.classList.remove('active'); // Fecha o menu se clicar fora dele
+  }
+});
+
 function textModify(modifier){
     document.querySelector(`#${modifier}-button`).addEventListener("click", function() {
         this.classList.toggle("pressed");
@@ -277,7 +315,21 @@ function textModify(modifier){
     });
 }
 
+function listModify(modifier){
+  document.querySelector(`#${modifier}-button`).addEventListener("click", function() {
+      this.classList.toggle("pressed");
+      quill.format('list', modifier);
+      if(modifier == "bullet"){
+        document.querySelector(`#ordered-button`).classList.remove("pressed");
+      } else if(modifier == "ordered"){
+        document.querySelector(`#bullet-button`).classList.remove("pressed");
+      }
+  });
+}
+
 
 textModify("bold");
 textModify("italic");
 textModify("underline");
+listModify("ordered");
+listModify("bullet");

@@ -161,6 +161,22 @@ input::-webkit-inner-spin-button {
     background-color: #e0e0e0;
 }
 
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+.controls input{
+    font-size: 14px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 60px;
+  box-sizing: border-box;
+}
+
 header {
     height: 4rem;
     background-color: #ffffff;
@@ -227,7 +243,8 @@ main {
     border: 1px solid #ccc;
     padding: 1.5rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: 12pt;
     outline: none;
     box-sizing: border-box;
     overflow-y: auto;
@@ -253,7 +270,7 @@ header>div>img{
     margin: 0 1rem;
 }
 
-.toolbar button, .selected {
+.toolbar button, .selected, .selected-space {
     background-color: rgb(226, 226, 226);
     border: none;
     font-weight: bold;
@@ -263,18 +280,18 @@ header>div>img{
     transition: background-color 0.2s;
 }
 
-.toolbar button:hover, .selected:hover {
+.toolbar button:hover, .selected:hover, .selected-space:hover {
     background-color: #cac8c8;
 }
 
-.custom-select {
+.custom-select, .select-space {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 0 1rem;
+    margin: 0 0.5rem;
   }
 
-  .options {
+  .options, .options-space {
     display: none;
     position: absolute;
     background-color: white;
@@ -282,15 +299,15 @@ header>div>img{
     z-index: 1;
   }
 
-  .option {
+  .option, .option-space {
     padding: 10px;
   }
 
-  .option:hover {
+  .option:hover, .option-space:hover {
     background-color: #f0f0f0;
   }
 
-  .custom-select.active .options {
+  .custom-select.active .options, .select-space.active .options-space {
     display: block;
   }
   #titulo-doc{
