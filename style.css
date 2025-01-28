@@ -249,7 +249,13 @@ main {
     box-sizing: border-box;
     overflow-y: auto;
     white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
+
+#editor[contenteditable="true"]:empty:before {
+    content: attr(data-placeholder); /* Placeholder quando vazio */
+    color: gray;
+  }
 
 .ql-font-arial {
     font-family: Arial, sans-serif;

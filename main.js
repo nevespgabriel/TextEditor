@@ -9,6 +9,7 @@ const downloadButton = document.querySelector("#download-button");
 const downloadBox = document.querySelector("#download-box");
 const removeButton = document.querySelector("#remove-button");
 const removeBox = document.querySelector("#remove-box");
+
 document.querySelector("header a");
 var Parchment = Quill.import('parchment');
 var lineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
@@ -44,6 +45,12 @@ Size.whitelist = [
   '88pt', '90pt', '92pt', '94pt', '96pt'
 ];
 Quill.register(Size, true);
+
+function ensureNonEmptyContent() {
+  if (editor.innerHTML === '' || editor.innerHTML === '<br>') {
+    editor.innerHTML = '&nbsp;'; // Espaço invisível para preservar a formatação
+  }
+}
 
 // Função para aplicar o tamanho da fonte
 function applyFontSize(size) {
@@ -314,3 +321,20 @@ textModify("italic");
 textModify("underline");
 listModify("ordered");
 listModify("bullet");
+
+editor.addEventListener('keydown', function(event) {
+  if (event.key === 'Backspace' || event.key === 'Delete') {
+    setTimeout(ensureNonEmptyContent, 0); // Esperar a ação de exclusão antes de verificar
+  }
+});
+
+// Garantir que o editor tenha sempre conteúdo ao focar ou desfocar
+editor.addEventListener('blur', ensureNonEmptyContent);
+editor.addEventListener('focus', ensureNonEmptyContent);
+
+// Garantir que o espaço inicial seja removido ao começar a digitar
+editor.addEventListener('input', function() {
+  if (editor.innerHTML === '&nbsp;') {
+    editor.innerHTML = ''; // Remover espaço se for o único conteúdo
+  }
+});
