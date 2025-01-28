@@ -251,6 +251,79 @@ main {
     white-space: pre-wrap;
 }
 
+.ql-font-arial {
+    font-family: Arial, sans-serif;
+}
+.ql-font-verdana {
+    font-family: Verdana, sans-serif;
+}
+.ql-font-tahoma {
+    font-family: Tahoma, sans-serif;
+}
+.ql-font-times-new-roman {
+    font-family: 'Times New Roman', serif;
+}
+.ql-font-georgia {
+    font-family: Georgia, serif;
+}
+.ql-font-courier-new {
+    font-family: 'Courier New', monospace;
+}
+.ql-font-comic-sans-ms {
+    font-family: 'Comic Sans MS', cursive;
+}
+.ql-font-impact {
+    font-family: Impact, sans-serif;
+}
+.ql-font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+.ql-font-open-sans {
+    font-family: 'Open Sans', sans-serif;
+}
+.ql-font-lato {
+    font-family: 'Lato', sans-serif;
+}
+.ql-font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+.ql-font-raleway {
+    font-family: 'Raleway', sans-serif;
+}
+.ql-font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+.ql-font-garamond {
+    font-family: Garamond, serif;
+}
+.ql-font-palatino {
+    font-family: Palatino, serif;
+}
+.ql-font-trebuchet-ms {
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.ql-font-helvetica {
+    font-family: Helvetica, sans-serif;
+}
+.ql-font-ubuntu {
+    font-family: 'Ubuntu', sans-serif;
+}
+.ql-font-merriweather {
+    font-family: 'Merriweather', serif;
+}
+.ql-font-fira-sans {
+    font-family: 'Fira Sans', sans-serif;
+}
+.ql-font-inconsolata {
+    font-family: 'Inconsolata', monospace;
+}
+.ql-font-playfair-display {
+    font-family: 'Playfair Display', serif;
+}
+.ql-font-dancing-script {
+    font-family: 'Dancing Script', cursive;
+}
+
 .editable:empty:before {
     content: attr(placeholder);
     color: #999;

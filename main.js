@@ -16,6 +16,15 @@ var lineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height'
 });
 Quill.register(lineHeightStyle, true);
 
+var Font = Quill.import('formats/font');
+Font.whitelist = [
+  'arial', 'verdana', 'tahoma', 'times-new-roman', 'georgia', 'courier-new', 'comic-sans-ms', 
+  'impact', 'roboto', 'open-sans', 'lato', 'montserrat', 'raleway', 'poppins', 'garamond', 
+  'palatino', 'trebuchet-ms', 'helvetica', 'ubuntu', 'merriweather', 'fira-sans', 
+  'inconsolata', 'playfair-display', 'dancing-script'
+];
+Quill.register(Font, true);
+
 // Configuração do Quill
 var quill = new Quill('#editor', {
   modules: {
@@ -23,8 +32,6 @@ var quill = new Quill('#editor', {
   },
   theme: 'snow'
 });
-
-
 
 // Registrar tamanhos personalizados
 const Size = Quill.import('attributors/style/size');
@@ -37,32 +44,6 @@ Size.whitelist = [
   '88pt', '90pt', '92pt', '94pt', '96pt'
 ];
 Quill.register(Size, true);
-
-const Font = Quill.import('formats/font');
-Font.whitelist = [
-    'Arial', 
-    'Verdana', 
-    'Tahoma', 
-    'Times New Roman', 
-    'Georgia', 
-    'Courier New', 
-    'Comic Sans MS', 
-    'Impact'
-];
-Quill.register(Font, true);
-
-function applyFontFamily(font) {
-  const range = quill.getSelection(); // Obtém a seleção atual no editor
-  if (range) {
-    if (range.length === 0) {
-      // Nenhum texto selecionado, aplica a fonte para o texto futuro
-      quill.format('font', font);
-    } else {
-      // Texto selecionado, aplica a fonte à seleção
-      quill.formatText(range, 'font', font);
-    }
-  }
-}
 
 // Função para aplicar o tamanho da fonte
 function applyFontSize(size) {
@@ -97,6 +78,11 @@ function applyAlignment(alignValue) {
     quill.format('align', alignValue);
   }
 }
+
+document.querySelector('#font-family').addEventListener('change', function() {
+  let fontFamily = this.value.toLowerCase().replace(/\s/g, '-');
+  quill.format('font', fontFamily);
+});
 
 // Mostrar o seletor de cor logo abaixo do botão ao clicar
 colorButton.addEventListener('click', function(event) {
@@ -175,11 +161,6 @@ quill.on('selection-change', function(range) {
   if (range == null) {
     // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
   }
-});
-
-document.querySelector("#font-family").addEventListener("change", function () {
-  const selectedFont = this.value; // Obtém a fonte selecionada no dropdown
-  applyFontFamily(selectedFont);    // Aplica a fonte selecionada ao editor
 });
 
 // Evento para o input de tamanho da fonte
