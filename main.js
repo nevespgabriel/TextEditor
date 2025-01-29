@@ -10,6 +10,13 @@ const downloadBox = document.querySelector("#download-box");
 const removeButton = document.querySelector("#remove-button");
 const removeBox = document.querySelector("#remove-box");
 
+let lastFont = 'arial';
+let lastColor = '#000000';
+let lastBold = false;
+let lastItalic = false;
+let lastUnderline = false;
+let lastSize = '12pt';
+
 document.querySelector("header a");
 var Parchment = Quill.import('parchment');
 var lineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
@@ -46,15 +53,40 @@ Size.whitelist = [
 ];
 Quill.register(Size, true);
 
+function storeCurrentFormats() {
+  let selection = quill.getFormat();
+  
+  lastFont = selection.font || lastFont;
+  lastColor = selection.color || lastColor;
+  lastSize = selection.size || lastSize; // Agora armazena o tamanho da fonte
+  lastBold = document.querySelector("#bold-button").classList.contains("pressed");
+  lastItalic = document.querySelector("#italic-button").classList.contains("pressed");
+  lastUnderline = document.querySelector("#underline-button").classList.contains("pressed");
+}
+
+function restoreLastFormats() {
+  quill.format('font', lastFont);
+  quill.format('color', lastColor);
+  quill.format('bold', lastBold);
+  quill.format('italic', lastItalic);
+  quill.format('underline', lastUnderline);
+  quill.format('size', lastSize);
+}
+
 function ensureNonEmptyContent() {
-  if (editor.innerHTML === '' || editor.innerHTML === '<br>') {
-    editor.innerHTML = '&nbsp;'; // Espaço invisível para preservar a formatação
+  if (quill.getLength() === 1) {
+    quill.format('font', lastFont);
+    quill.format('color', lastColor);
+    quill.format('bold', lastBold);
+    quill.format('italic', lastItalic);
+    quill.format('underline', lastUnderline);
   }
 }
 
 // Função para aplicar o tamanho da fonte
 function applyFontSize(size) {
   const range = quill.getSelection();
+  lastSize = size;
   if (range) {
     if (range.length === 0) {
       // Nenhum texto selecionado, aplica o formato para o texto futuro
@@ -87,8 +119,8 @@ function applyAlignment(alignValue) {
 }
 
 document.querySelector('#font-family').addEventListener('change', function() {
-  let fontFamily = this.value.toLowerCase().replace(/\s/g, '-');
-  quill.format('font', fontFamily);
+  lastFont = this.value.toLowerCase().replace(/\s/g, '-');
+  quill.format('font', lastFont);
 });
 
 // Mostrar o seletor de cor logo abaixo do botão ao clicar
@@ -107,16 +139,16 @@ colorButton.addEventListener('click', function(event) {
 
 // Aplicar a cor selecionada ao texto
 colorPicker.addEventListener('input', function(event) {
-  const color = this.value;
+  lastColor = this.value;
   const range = quill.getSelection();
 
   if (range) {
     if (range.length === 0) {
       // Aplica cor ao texto futuro (caso não haja texto selecionado)
-      quill.format('color', color);
+      quill.format('color', lastColor);
     } else {
       // Aplica cor ao texto selecionado
-      quill.formatText(range, 'color', color);
+      quill.formatText(range, 'color', last);
     }
   }
 
@@ -296,11 +328,18 @@ document.addEventListener('click', (event) => {
   }
 });
 
-function textModify(modifier){
-    document.querySelector(`#${modifier}-button`).addEventListener("click", function() {
-        this.classList.toggle("pressed");
-        document.execCommand(modifier);
-    });
+function textModify(modifier) {
+  document.querySelector(`#${modifier}-button`).addEventListener("click", function () {
+    this.classList.toggle("pressed");
+
+    let newState = this.classList.contains("pressed");
+    quill.format(modifier, newState);
+
+    // Atualizar o estado global da formatação
+    if (modifier === "bold") lastBold = newState;
+    if (modifier === "italic") lastItalic = newState;
+    if (modifier === "underline") lastUnderline = newState;
+  });
 }
 
 function listModify(modifier){
@@ -324,7 +363,8 @@ listModify("bullet");
 
 editor.addEventListener('keydown', function(event) {
   if (event.key === 'Backspace' || event.key === 'Delete') {
-    setTimeout(ensureNonEmptyContent, 0); // Esperar a ação de exclusão antes de verificar
+    storeLastFormats(); // Armazena as formatações antes de apagar
+    setTimeout(ensureNonEmptyContent, 0);
   }
 });
 
@@ -336,5 +376,22 @@ editor.addEventListener('focus', ensureNonEmptyContent);
 editor.addEventListener('input', function() {
   if (editor.innerHTML === '&nbsp;') {
     editor.innerHTML = ''; // Remover espaço se for o único conteúdo
+  }
+
+});
+quill.on('text-change', function(delta, oldDelta, source) {
+  if (quill.getLength() === 1) { // Se o editor estiver vazio
+    restoreLastFormats(); // Restaurar apenas se necessário
+    quill.format('size', lastSize);
+  }
+});
+
+quill.on('selection-change', function() {
+  storeCurrentFormats();
+});
+
+quill.on('text-change', function() {
+  if (quill.getLength() === 1) { // Se o editor estiver vazio
+    quill.format('size', lastSize);
   }
 });
