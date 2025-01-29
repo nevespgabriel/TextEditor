@@ -86,7 +86,7 @@ function ensureNonEmptyContent() {
 // Função para aplicar o tamanho da fonte
 function applyFontSize(size) {
   const range = quill.getSelection();
-  lastSize = size;
+  lastSize = size + 'pt';
   if (range) {
     if (range.length === 0) {
       // Nenhum texto selecionado, aplica o formato para o texto futuro
@@ -379,10 +379,10 @@ editor.addEventListener('input', function() {
   }
 
 });
+
 quill.on('text-change', function(delta, oldDelta, source) {
   if (quill.getLength() === 1) { // Se o editor estiver vazio
     restoreLastFormats(); // Restaurar apenas se necessário
-    quill.format('size', lastSize);
   }
 });
 
