@@ -1,3 +1,4 @@
+// Restante do código JavaScript existente
 const inputSize = document.getElementById('font-size');
 const btnPlus = document.getElementById('btn-plus');
 const btnMinus = document.getElementById('btn-minus');
@@ -123,6 +124,16 @@ document.querySelector('#font-family').addEventListener('change', function() {
   quill.format('font', lastFont);
 });
 
+document.getElementById('titulo-doc').addEventListener('focus', function() {
+  quill.blur(); // Remover foco do editor quando o título for ativado
+});
+
+// Adicionar evento de foco ao campo de título
+document.getElementById('titulo-doc').addEventListener('click', function(event) {
+  event.stopPropagation();
+  this.focus(); // Foca no campo de título
+});
+
 // Mostrar o seletor de cor logo abaixo do botão ao clicar
 colorButton.addEventListener('click', function(event) {
   // Impede que o clique no botão de cor feche o seletor
@@ -197,6 +208,10 @@ document.querySelectorAll('.option-space').forEach(function(option) {
 });
 
 quill.on('selection-change', function(range) {
+  if (document.activeElement === tituloDoc) {
+    return; // Se o título está em edição, não faça nada
+  }
+  
   if (range == null) {
     // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
   }
@@ -347,9 +362,9 @@ function listModify(modifier){
       this.classList.toggle("pressed");
       quill.format('list', modifier);
       if(modifier == "bullet"){
-        document.querySelector(`#ordered-button`).classList.remove("pressed");
+        document.querySelector("#ordered-button").classList.remove("pressed");
       } else if(modifier == "ordered"){
-        document.querySelector(`#bullet-button`).classList.remove("pressed");
+        document.querySelector("#bullet-button").classList.remove("pressed");
       }
   });
 }
@@ -371,6 +386,7 @@ editor.addEventListener('keydown', function(event) {
 // Garantir que o editor tenha sempre conteúdo ao focar ou desfocar
 editor.addEventListener('blur', ensureNonEmptyContent);
 editor.addEventListener('focus', ensureNonEmptyContent);
+
 
 // Garantir que o espaço inicial seja removido ao começar a digitar
 editor.addEventListener('input', function() {
