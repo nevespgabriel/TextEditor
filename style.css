@@ -4,6 +4,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #e5e5e5;
+
 }
 
 header>div>img{
@@ -243,24 +244,17 @@ main {
     align-items: center;
     width: 210mm; /* Largura fixa para telas grandes */
     height: 297mm; /* Altura fixa para telas grandes */
-    max-width: 100%; /* Permite que o editor se ajuste em telas menores */
     margin: 0 auto; /* Centraliza o editor */
 }
 
 .editable {
     background-color: white;
-    width: 100%; /* Largura total do editor */
-    height: 100%; /* Altura total do editor */
+    width: 210mm;
+    height: 297mm;
     border: 1px solid #ccc;
     padding: 1.5rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    line-height: 1.5;
-    font-size: 12pt;
-    outline: none;
-    box-sizing: border-box;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
+    position: relative;
 }
 
 #editor[contenteditable="true"]:empty:before {
@@ -425,17 +419,45 @@ background-color: #a5a5a5 !important;
     position: relative;
   }
 
+  #next-button, #back-button{
+    display: none;
+  }
+
+.nodisplay{
+    display: none;
+}
+
+#plus-button{
+    display: none;
+}
+
 /* Media Queries para telas menores */
 @media (max-width: 768px) {
-    .editor-wrapper {
-        width: 90%; /* Ajusta a largura em telas menores */
-        height: auto; /* Permite que a altura se ajuste automaticamente */
-        aspect-ratio: 210 / 297; /* Mantém a proporção A4 */
+    .custom-select, .selected-space, #bullet-button, #ordered-button, #not-show-hr{
+        display: none;
+    }
+
+    .editable{
+        width: 100%;
+    }
+
+    main{
+        padding: 0.3rem;
+    }
+
+    #next-button{
+        display:block;
+    }
+
+    #file-buttons{
+        display: none;
+    }
+
+    #plus-button{
+        display: block;
     }
 }
 
 @media (max-width: 480px) {
-    .editor-wrapper {
-        width: 95%; /* Ajusta ainda mais em telas muito pequenas */
-    }
+    
 }
