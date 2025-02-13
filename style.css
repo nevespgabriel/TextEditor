@@ -241,9 +241,9 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Largura total do contêiner */
-    max-width: 100vw; /* Limita a largura ao tamanho da tela */
-    aspect-ratio: 210 / 297; /* Mantém a proporção A4 */
+    width: 210mm; /* Largura fixa para telas grandes */
+    height: 297mm; /* Altura fixa para telas grandes */
+    max-width: 100%; /* Permite que o editor se ajuste em telas menores */
     margin: 0 auto; /* Centraliza o editor */
 }
 
@@ -425,14 +425,17 @@ background-color: #a5a5a5 !important;
     position: relative;
   }
 
-  @media (max-width: 768px) {
+/* Media Queries para telas menores */
+@media (max-width: 768px) {
     .editor-wrapper {
-        max-width: 90vw; /* Ajusta a largura em telas menores */
+        width: 90%; /* Ajusta a largura em telas menores */
+        height: auto; /* Permite que a altura se ajuste automaticamente */
+        aspect-ratio: 210 / 297; /* Mantém a proporção A4 */
     }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (max-width: 480px) {
     .editor-wrapper {
-        max-width: 80vw; /* Ajusta a largura em telas médias */
+        width: 95%; /* Ajusta ainda mais em telas muito pequenas */
     }
 }
