@@ -263,11 +263,6 @@ main {
     overflow-wrap: break-word;
 }
 
-#editor[contenteditable="true"]:empty:before {
-    content: attr(data-placeholder); /* Placeholder quando vazio */
-    color: gray;
-  }
-
 .ql-font-arial {
     font-family: Arial, sans-serif;
 }
@@ -342,7 +337,6 @@ main {
 }
 
 .editable:empty:before {
-    content: attr(placeholder);
     color: #999;
     pointer-events: none;
     display: block;
@@ -429,10 +423,6 @@ background-color: #a5a5a5 !important;
     display: none;
   }
 
-.nodisplay{
-    display: none;
-}
-
 #plus-button{
     display: none;
 }
@@ -440,7 +430,7 @@ background-color: #a5a5a5 !important;
 /* Media Queries para telas menores */
 @media (max-width: 768px) {
     
-    .custom-select, .selected-space, #bullet-button, #ordered-button, #not-show-hr, #file-buttons{
+    .custom-select, .select-space, #bullet-button, #ordered-button, #not-show-hr, #file-buttons{
         display: none;
     }
 

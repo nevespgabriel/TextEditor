@@ -10,6 +10,19 @@ const downloadButton = document.querySelector("#download-button");
 const downloadBox = document.querySelector("#download-box");
 const removeButton = document.querySelector("#remove-button");
 const removeBox = document.querySelector("#remove-box");
+const nextButton = document.querySelector("#next-button");
+const backButton = document.querySelector("#back-button");
+const fontSelect = document.querySelector("#font-change");
+const sizeBox = document.querySelector("#toolbar-container");
+const textStyle = document.querySelector(".text-style");
+const customSelect = document.querySelector('.custom-select');
+const selected = customSelect.querySelector('.selected');
+const options = customSelect.querySelector('.options');
+const selectSpace = document.querySelector('.select-space');
+const selectedSpace = selectSpace.querySelector('.selected-space');
+const optionsSpace = selectSpace.querySelector('.options-space');
+const bulletButton = document.querySelector("#bullet-button");
+const orderedButton = document.querySelector("#ordered-button");
 
 let lastFont = 'arial';
 let lastColor = '#000000';
@@ -119,19 +132,55 @@ function applyAlignment(alignValue) {
   }
 }
 
+function changeLayout(toNone, toBlock){
+  toNone.forEach((elemento) => {
+    elemento.style.display = "none";
+  });
+  toBlock.forEach((elemento) => {
+    elemento.style.display = "block";
+    if(elemento == sizeBox){
+      elemento.style.display = "flex";
+    }
+  });
+  
+}
+
+nextButton.addEventListener("click", function(){
+  const toNone = [colorButton, nextButton, fontSelect, sizeBox, textStyle];
+  const toBlock = [backButton, customSelect, selectSpace, bulletButton, orderedButton];
+  changeLayout(toNone, toBlock);
+  document.querySelectorAll("hr").forEach(function(hr) {
+    hr.style.display = "none";
+  });
+});
+
+backButton.addEventListener("click", function(){
+  const toNone = [backButton, customSelect, selectSpace, bulletButton, orderedButton];
+  const toBlock = [colorButton, nextButton, fontSelect, sizeBox, textStyle]; 
+  changeLayout(toNone, toBlock);
+  document.querySelectorAll("hr").forEach(function(hr) {
+    hr.style.display = "block";
+  });
+  document.querySelector("#not-show-hr").style.display = "none";
+})
+
 document.querySelector('#font-family').addEventListener('change', function() {
   lastFont = this.value.toLowerCase().replace(/\s/g, '-');
   quill.format('font', lastFont);
 });
 
 document.getElementById('titulo-doc').addEventListener('focus', function() {
-  quill.blur(); // Remover foco do editor quando o título for ativado
+  quill.blur(); 
 });
 
 // Adicionar evento de foco ao campo de título
 document.getElementById('titulo-doc').addEventListener('click', function(event) {
+  
   event.stopPropagation();
-  this.focus(); // Foca no campo de título
+  setTimeout(() => {
+    quill.blur(); // Remove o foco do Quill
+    tituloDoc.focus(); // Garante que o título tenha foco
+  }, 0);
 });
 
 // Mostrar o seletor de cor logo abaixo do botão ao clicar
@@ -214,8 +263,10 @@ quill.on('selection-change', function(range) {
   
   if (range == null) {
     // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
-  }
+  }s
 });
+
+
 
 // Evento para o input de tamanho da fonte
 inputSize.addEventListener('input', function () {
@@ -290,10 +341,6 @@ dropdown.addEventListener('click', function (e) {
   }
 });
 
-const customSelect = document.querySelector('.custom-select');
-const selected = customSelect.querySelector('.selected');
-const options = customSelect.querySelector('.options');
-
 // Abre/fecha o menu de opções ao clicar no seletor
 selected.addEventListener('click', (event) => {
   customSelect.classList.toggle('active');
@@ -317,10 +364,6 @@ document.addEventListener('click', (event) => {
     customSelect.classList.remove('active'); // Fecha o menu se clicar fora dele
   }
 });
-
-const selectSpace = document.querySelector('.select-space');
-const selectedSpace = selectSpace.querySelector('.selected-space');
-const optionsSpace = selectSpace.querySelector('.options-space');
 
 selectSpace.addEventListener('click', (event) => {
   selectSpace.classList.toggle('active');
@@ -411,3 +454,4 @@ quill.on('text-change', function() {
     quill.format('size', lastSize);
   }
 });
+
