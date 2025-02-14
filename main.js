@@ -256,38 +256,49 @@ document.querySelector("header a").addEventListener("click", function(){
   this.classList.add("header-pressed");
 });
 
-const savedContent = localStorage.getItem('quill-content');
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+// Obter o ID do documento da URL
+const docId = getQueryParam("doc"); // por exemplo, "documento-1"
+
+// Carregar conteúdo salvo no localStorage para o documento específico
+const savedContent = localStorage.getItem(`quill-content-${docId}`);
 if (savedContent) {
-    quill.setContents(JSON.parse(savedContent));
+  quill.setContents(JSON.parse(savedContent));
 }
 
-const savedTitle = localStorage.getItem('doc-title');
+// Carregar título salvo no localStorage para o documento específico
+const savedTitle = localStorage.getItem(`doc-title-${docId}`);
 if (savedTitle) {
-    tituloDoc.value = savedTitle;
+  tituloDoc.value = savedTitle;
 }
 
+// Salvar o conteúdo e título no localStorage ao clicar no botão salvar
 document.querySelector("#save-button").addEventListener("click", function(){
   this.classList.add("header-pressed");
   setTimeout(function(){
-    document.querySelector("#save-button").classList.remove("header-pressed");
-    
-    const saveBox = document.querySelector("#save-box");
-    saveBox.classList.remove("hide");
-    saveBox.classList.add("show");
+      document.querySelector("#save-button").classList.remove("header-pressed");
 
-    setTimeout(function(){
-      saveBox.classList.remove("show");
-      saveBox.classList.add("hide");
-    }, 2000);
+      const saveBox = document.querySelector("#save-box");
+      saveBox.classList.remove("hide");
+      saveBox.classList.add("show");
+
+      setTimeout(function(){
+          saveBox.classList.remove("show");
+          saveBox.classList.add("hide");
+      }, 2000);
   }, 500);
-  
-  // Salvar conteúdo do editor Quill
+
+  // Salvar conteúdo do editor Quill para o documento específico
   const content = quill.getContents();  
-  localStorage.setItem('quill-content', JSON.stringify(content));  // Salvar no localStorage
-  
+  localStorage.setItem(`quill-content-${docId}`, JSON.stringify(content));  // Salvar com base no ID do documento
+
   // Salvar título do documento
   const title = tituloDoc.value;  // Pega o valor do campo de título
-  localStorage.setItem('doc-title', title);  // Salvar no localStorage
+  localStorage.setItem(`doc-title-${docId}`, title);  // Salvar com base no ID do documento
 });
 
 // Lógica do seletor personalizado

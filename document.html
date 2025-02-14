@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documento</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        window.onload = function() {
+            // Obter o ID do documento pela query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const docId = urlParams.get('id');
+            
+            // Carregar o conteúdo do documento a partir do localStorage
+            const documentContent = localStorage.getItem(docId);
+            if (documentContent) {
+                document.open();
+                document.write(documentContent);
+                document.close();
+            } else {
+                document.body.innerHTML = '<h1>Documento não encontrado!</h1>';
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Carregando documento...</h1>
+</body>
+</html>
