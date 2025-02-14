@@ -24,6 +24,7 @@ const optionsSpace = selectSpace.querySelector('.options-space');
 const bulletButton = document.querySelector("#bullet-button");
 const orderedButton = document.querySelector("#ordered-button");
 const plusButton = document.querySelector("#plus-button");
+const tituloDoc = document.getElementById('titulo-doc');
 
 let lastFont = 'arial';
 let lastColor = '#000000';
@@ -204,12 +205,12 @@ document.querySelector('#font-family').addEventListener('change', function() {
   quill.format('font', lastFont);
 });
 
-document.getElementById('titulo-doc').addEventListener('focus', function() {
+tituloDoc.addEventListener('focus', function() {
   quill.blur(); 
 });
 
 // Adicionar evento de foco ao campo de título
-document.getElementById('titulo-doc').addEventListener('click', function(event) {
+tituloDoc.addEventListener('click', function(event) {
   
   event.stopPropagation();
   setTimeout(() => {
@@ -260,6 +261,11 @@ if (savedContent) {
     quill.setContents(JSON.parse(savedContent));
 }
 
+const savedTitle = localStorage.getItem('doc-title');
+if (savedTitle) {
+    tituloDoc.value = savedTitle;
+}
+
 document.querySelector("#save-button").addEventListener("click", function(){
   this.classList.add("header-pressed");
   setTimeout(function(){
@@ -274,8 +280,14 @@ document.querySelector("#save-button").addEventListener("click", function(){
       saveBox.classList.add("hide");
     }, 2000);
   }, 500);
-  const content = quill.getContents();  // Get current content from editor
-  localStorage.setItem('quill-content', JSON.stringify(content));  // Save it to localStorage
+  
+  // Salvar conteúdo do editor Quill
+  const content = quill.getContents();  
+  localStorage.setItem('quill-content', JSON.stringify(content));  // Salvar no localStorage
+  
+  // Salvar título do documento
+  const title = tituloDoc.value;  // Pega o valor do campo de título
+  localStorage.setItem('doc-title', title);  // Salvar no localStorage
 });
 
 // Lógica do seletor personalizado
