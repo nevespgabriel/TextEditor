@@ -429,7 +429,12 @@ background-color: #a5a5a5 !important;
 
 /* Media Queries para telas menores */
 @media (max-width: 768px) {
-    
+
+    #action-btns{
+        display: flex;
+        flex-direction: column;
+    }
+
     .custom-select, .select-space, #bullet-button, #ordered-button, #not-show-hr, #file-buttons{
         display: none;
     }

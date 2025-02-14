@@ -23,6 +23,7 @@ const selectedSpace = selectSpace.querySelector('.selected-space');
 const optionsSpace = selectSpace.querySelector('.options-space');
 const bulletButton = document.querySelector("#bullet-button");
 const orderedButton = document.querySelector("#ordered-button");
+const plusButton = document.querySelector("#plus-button");
 
 let lastFont = 'arial';
 let lastColor = '#000000';
@@ -117,36 +118,70 @@ function applyFontSize(size) {
 
 function applyAlignment(alignValue) {
   const range = quill.getSelection();
-  
+
+  // Verifica se o valor de alinhamento é "left" e define como null
+  if (alignValue === 'left') {
+    alignValue = null; // Quill usa null para alinhamento à esquerda
+  }
+
   if (range) {
     if (range.length === 0) {
-      // Se não houver texto selecionado, aplica o alinhamento ao texto futuro
+      // Aplica ao texto futuro se não houver texto selecionado
       quill.format('align', alignValue);
     } else {
-      // Se houver texto selecionado, aplica o alinhamento ao texto selecionado
+      // Aplica ao texto selecionado
       quill.format('align', alignValue);
     }
   } else {
-    // Se não houver seleção (nenhuma posição do cursor), aplica ao texto futuro
+    // Aplica ao texto futuro se não houver posição do cursor
     quill.format('align', alignValue);
   }
 }
 
-function changeLayout(toNone, toBlock){
+function changeLayout(toNone, toBlock) {
   toNone.forEach((elemento) => {
-    elemento.style.display = "none";
-  });
-  toBlock.forEach((elemento) => {
-    elemento.style.display = "block";
-    if(elemento == sizeBox){
-      elemento.style.display = "flex";
+    if (elemento !== textStyle) {
+      elemento.style.display = "none";
+    } else {
+      // Se textStyle for uma coleção de elementos
+      const textStyleElements = Array.isArray(textStyle) ? textStyle : [textStyle];
+      textStyleElements.forEach(function(el) {
+        el.style.display = "none";
+      });
     }
   });
-  
+
+  toBlock.forEach((elemento) => {
+    if (elemento === sizeBox) {
+      elemento.style.display = "flex";
+    } else if (elemento === textStyle) {
+      // Se textStyle for uma coleção de elementos
+      const textStyleElements = Array.isArray(textStyle) ? textStyle : [textStyle];
+      textStyleElements.forEach(function(el) {
+        el.style.display = "inline";
+      });
+    } else {
+      elemento.style.display = "block";
+    }
+  });
 }
 
+plusButton.addEventListener("click", function(){
+  plusButton.classList.toggle("pressed");
+  const fileButtons = document.querySelector("#file-buttons");
+  if(plusButton.classList.contains("pressed")){
+    fileButtons.style.display = "flex";
+    fileButtons.style.flexDirection = "column";
+    fileButtons.style.position = "absolute";
+    fileButtons.style.top = "50px";
+  } else{
+    fileButtons.style.display = "none";
+  }
+    
+})
+
 nextButton.addEventListener("click", function(){
-  const toNone = [colorButton, nextButton, fontSelect, sizeBox, textStyle];
+  const toNone = [nextButton, fontSelect, sizeBox, textStyle];
   const toBlock = [backButton, customSelect, selectSpace, bulletButton, orderedButton];
   changeLayout(toNone, toBlock);
   document.querySelectorAll("hr").forEach(function(hr) {
@@ -156,7 +191,7 @@ nextButton.addEventListener("click", function(){
 
 backButton.addEventListener("click", function(){
   const toNone = [backButton, customSelect, selectSpace, bulletButton, orderedButton];
-  const toBlock = [colorButton, nextButton, fontSelect, sizeBox, textStyle]; 
+  const toBlock = [nextButton, fontSelect, sizeBox, textStyle]; 
   changeLayout(toNone, toBlock);
   document.querySelectorAll("hr").forEach(function(hr) {
     hr.style.display = "block";
@@ -220,6 +255,11 @@ document.querySelector("header a").addEventListener("click", function(){
   this.classList.add("header-pressed");
 });
 
+const savedContent = localStorage.getItem('quill-content');
+if (savedContent) {
+    quill.setContents(JSON.parse(savedContent));
+}
+
 document.querySelector("#save-button").addEventListener("click", function(){
   this.classList.add("header-pressed");
   setTimeout(function(){
@@ -234,12 +274,15 @@ document.querySelector("#save-button").addEventListener("click", function(){
       saveBox.classList.add("hide");
     }, 2000);
   }, 500);
+  const content = quill.getContents();  // Get current content from editor
+  localStorage.setItem('quill-content', JSON.stringify(content));  // Save it to localStorage
 });
 
 // Lógica do seletor personalizado
 document.querySelectorAll('.option').forEach(function(option) {
   option.addEventListener('click', function() {
     const alignValue = this.getAttribute('data-value'); // Obtém o valor de alinhamento
+    console.log("Alinhamento selecionado:", alignValue); // Verifica qual valor foi selecionado
     applyAlignment(alignValue); // Aplica o alinhamento
 
     // Atualiza o ícone selecionado para refletir a escolha
