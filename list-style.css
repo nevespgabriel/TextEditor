@@ -34,6 +34,10 @@ nav{
     font-weight:bolder;
 }
 
+.none{
+    display: none;
+}
+
 .confirmation-box>*{
     padding: 0.8rem 1.3rem;
 }
@@ -67,9 +71,9 @@ nav{
     min-height: 375px; /* Ajuste o valor conforme necessário */
   }
 
-  .ignore-filter .card {
-    
-  }
+  .header-pressed{
+    background-color: #d8d8d8 !important;
+};
 
 .card{
     transition: background-color 0.3s ease; /* Animação suave na mudança */

@@ -521,3 +521,70 @@ quill.on('text-change', function() {
   }
 });
 
+// Função para baixar um arquivo
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+// Função para converter Delta para Markdown-like (para TXT)
+function convertDeltaToText(delta) {
+  let text = "";
+  delta.ops.forEach(op => {
+      if (typeof op.insert === "string") {
+          let insertText = op.insert;
+
+          if (op.attributes) {
+              if (op.attributes.bold) insertText = `**${insertText}**`; // Negrito
+              if (op.attributes.italic) insertText = `_${insertText}_`; // Itálico
+              if (op.attributes.underline) insertText = `__${insertText}__`; // Sublinhado
+          }
+
+          text += insertText;
+      }
+  });
+
+  return text;
+}
+
+// Botão de download em HTML (mantém formatação)
+downloadBox.querySelector("#html-download").addEventListener("click", function () {
+  const content = localStorage.getItem(`quill-content-${docId}`);
+  const title = localStorage.getItem(`doc-title-${docId}`) || "documento";
+
+  if (content) {
+      const htmlContent = quill.root.innerHTML; // Obtém HTML formatado do Quill
+      const fullHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@400;500&family=Lato:wght@400;500&family=Montserrat:wght@400;500&family=Raleway:wght@400;500&family=Poppins:wght@400;500&family=Merriweather:wght@400;500&family=Fira+Sans:wght@400;500&family=Inconsolata:wght@400;500&family=Playfair+Display:wght@400;500&family=Dancing+Script:wght@400;500&display=swap" rel="stylesheet">
+  <title>${title}</title>
+</head>
+<body>
+  ${htmlContent}
+</body>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>  
+</html>`;
+
+      downloadFile(`${title}.html`, fullHtml, "text/html");
+  }
+});
+
+// Botão de download em TXT (converte formatação básica)
+downloadBox.querySelector("#txt-download").addEventListener("click", function () {
+  const content = localStorage.getItem(`quill-content-${docId}`);
+  const title = localStorage.getItem(`doc-title-${docId}`) || "documento";
+
+  if (content) {
+      const quillDelta = JSON.parse(content); // Recupera a estrutura do Quill
+      const plainText = convertDeltaToText(quillDelta); // Converte para formato Markdown-like
+      downloadFile(`${title}.txt`, plainText, "text/plain");
+  }
+});
