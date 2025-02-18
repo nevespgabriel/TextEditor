@@ -6,7 +6,9 @@
     padding: 1rem 1.2rem;
     width: 12rem;
 }
- 
+
+  
+
 nav{
     height: 4rem;
     z-index: 1000;
@@ -28,6 +30,7 @@ nav{
     border: 1px solid #00000049;
     color: #00000098;
     position: absolute;
+    display: block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding: 0.3rem 0.5rem;
     border-radius: 7px;
