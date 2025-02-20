@@ -12,6 +12,21 @@ function saveCardsData() {
   localStorage.setItem("cardsData", JSON.stringify(cardsData));
 }
 
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function extractTextFromHTML(html) {
+  const tempElement = document.createElement("div");
+  tempElement.innerHTML = html;
+  return tempElement.textContent || tempElement.innerText || "";
+}
+
 // Adicionar evento de clique para os botões de download
 downloadButtons.forEach((button, index) => {
   button.addEventListener("click", function (event) {
@@ -65,8 +80,8 @@ function createCard(docTitle, docId) {
         <button type="button" class="btn btn-sm download-button">
           <img src="./icons/download_24dp_48752C_FILL0_wght400_GRAD0_opsz24.png" alt="Download">
           <div class="confirmation-box download-box" style="display: none;">
-            <div>Download arquivo HTML</div>
-            <div>Download arquivo txt</div>
+            <div class="html-download">Download arquivo HTML</div>
+            <div class="txt-download">Download arquivo txt</div>
           </div>
         </button>
         <button type="button" class="btn btn-sm remove-button">
@@ -93,7 +108,46 @@ function createCard(docTitle, docId) {
     } else {
       downloadBox.style.display = "block";
     }
+    const txtDownloadDiv = newCard.querySelector(".txt-download");
+    txtDownloadDiv.addEventListener("click", function (event) {
+    const htmlContent = localStorage.getItem(`quill-html-${docId}`);
+    if (htmlContent) {
+      const title = localStorage.getItem(`doc-title-${docId}`) || "documento";
+      const plainText = extractTextFromHTML(htmlContent);
+      downloadFile(`${title}.txt`, plainText, "text/plain");
+    }
+  
+  })
+});
+
+  // Download HTML: clique na div .html-download
+  const htmlDownloadDiv = newCard.querySelector(".html-download");
+  htmlDownloadDiv.addEventListener("click", function (event) {
+    const htmlContent = localStorage.getItem(`quill-html-${docId}`);
+if (htmlContent) {
+  const title = localStorage.getItem(`doc-title-${docId}`) || "documento";
+  const fullHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <title>${title}</title>
+</head>
+<body>
+  ${htmlContent}
+</body>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>  
+</html>`;
+  downloadFile(`${title}.html`, fullHtml, "text/html");
+}
   });
+  
+    // EVENTOS: Download TXT – dentro da download-box, clique na opção TXT
+    
+  
+    // EVENTOS: Download HTML – dentro da download-box, clique na opção HTML
+    
 
   // Botão de remoção:
   newCard.querySelector(".remove-button").addEventListener("click", function(event) {

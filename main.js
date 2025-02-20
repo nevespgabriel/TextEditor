@@ -244,11 +244,12 @@ colorPicker.addEventListener('input', function(event) {
       quill.format('color', lastColor);
     } else {
       // Aplica cor ao texto selecionado
-      quill.formatText(range, 'color', last);
+      quill.formatText(range.index, range.length, 'color', lastColor);
     }
   }
 
   // Oculta o seletor de cor após selecionar
+  colorPicker.style.display = 'none';
   colorButton.classList.remove("pressed"); // Remove a classe quando o seletor desaparece
 });
 
@@ -298,8 +299,10 @@ document.querySelector("#save-button").addEventListener("click", function(){
 
   // Salvar título do documento
   const title = tituloDoc.value;  // Pega o valor do campo de título
+  const htmlContent = quill.root.innerHTML;
   localStorage.setItem(`doc-title-${docId}`, title);  // Salvar com base no ID do documento
   localStorage.setItem(`quill-content-${docId}`, JSON.stringify(content));
+  localStorage.setItem(`quill-html-${docId}`, htmlContent);
 
   let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [];
   // Atualizar o título do card correspondente ao docId
@@ -346,7 +349,7 @@ quill.on('selection-change', function(range) {
   
   if (range == null) {
     // Se não houver seleção, pode-se lidar com o estado de desfoque aqui
-  }s
+  }
 });
 
 
@@ -483,15 +486,29 @@ function textModify(modifier) {
   });
 }
 
-function listModify(modifier){
+function listModify(modifier) {
   document.querySelector(`#${modifier}-button`).addEventListener("click", function() {
-      this.classList.toggle("pressed");
-      quill.format('list', modifier);
-      if(modifier == "bullet"){
-        document.querySelector("#ordered-button").classList.remove("pressed");
-      } else if(modifier == "ordered"){
-        document.querySelector("#bullet-button").classList.remove("pressed");
+    const range = quill.getSelection();
+    if (range) {
+      // Obtém a formatação atual no local selecionado
+      const currentFormat = quill.getFormat(range);
+
+      // Se a lista já está aplicada, desativa-a
+      if (currentFormat.list === modifier) {
+        quill.format('list', false); // Remove a lista
+        this.classList.remove("pressed");
+      } else {
+        // Aplica a lista
+        quill.format('list', modifier);
+        this.classList.add("pressed");
+        // Desativa o outro botão de lista
+        if (modifier === "bullet") {
+          document.querySelector("#ordered-button").classList.remove("pressed");
+        } else if (modifier === "ordered") {
+          document.querySelector("#bullet-button").classList.remove("pressed");
+        }
       }
+    }
   });
 }
 
@@ -504,7 +521,7 @@ listModify("bullet");
 
 editor.addEventListener('keydown', function(event) {
   if (event.key === 'Backspace' || event.key === 'Delete') {
-    storeLastFormats(); // Armazena as formatações antes de apagar
+    
     setTimeout(ensureNonEmptyContent, 0);
   }
 });
@@ -604,4 +621,23 @@ downloadBox.querySelector("#txt-download").addEventListener("click", function ()
       const plainText = convertDeltaToText(quillDelta); // Converte para formato Markdown-like
       downloadFile(`${title}.txt`, plainText, "text/plain");
   }
+});
+
+document.querySelector(".drop").addEventListener("click", function(event) {
+  console.log("Tá indo");
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Remover os dados do documento do localStorage
+  localStorage.removeItem(`doc-title-${docId}`);
+  localStorage.removeItem(`quill-content-${docId}`);
+  localStorage.removeItem(`quill-html-${docId}`); // se estiver usando
+
+  // Atualizar o array de cards (cardsData) no localStorage
+  let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [];
+  cardsData = cardsData.filter(card => card.docId !== docId);
+  localStorage.setItem("cardsData", JSON.stringify(cardsData));
+
+  // Redirecionar para a list.html (a página com os cards)
+  window.location.href = "list.html";
 });
