@@ -262,7 +262,7 @@ function getQueryParam(param) {
 }
 
 // Obter o ID do documento da URL
-const docId = getQueryParam("doc"); // por exemplo, "documento-1"
+const docId = getQueryParam("docId"); // por exemplo, "documento-1"
 
 // Carregar conteúdo salvo no localStorage para o documento específico
 const savedContent = localStorage.getItem(`quill-content-${docId}`);
@@ -299,7 +299,24 @@ document.querySelector("#save-button").addEventListener("click", function(){
   // Salvar título do documento
   const title = tituloDoc.value;  // Pega o valor do campo de título
   localStorage.setItem(`doc-title-${docId}`, title);  // Salvar com base no ID do documento
+  localStorage.setItem(`quill-content-${docId}`, JSON.stringify(content));
+
+  let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [];
+  // Atualizar o título do card correspondente ao docId
+  cardsData = cardsData.map(card => {
+    if (card.docId === docId) {
+      return { ...card, docTitle: title };
+    }
+    return card;
+  });
+  localStorage.setItem("cardsData", JSON.stringify(cardsData));
 });
+
+const title = tituloDoc.value;
+  const content = quill.getContents();
+
+  // Atualizar o array de cards (cardsData) para que o título do card seja o atualizado
+  
 
 // Lógica do seletor personalizado
 document.querySelectorAll('.option').forEach(function(option) {
